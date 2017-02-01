@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+  'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace='com.rocket.dao.PersonDAO'>
+
+	<resultMap id="person_mapper" type="com.rocket.minutes.model.Person">
+		<id property="id" column="id" />
+		<result property="fname" column="fname" />
+		<result property="lname" column="lname" />
+		<result property="company_id" column="company_id" />
+		<result property="email" column="email" />
+	</resultMap>
+	
+	<select id="getById" parameterType="Long" resultMap="person_mapper">
+		SELECT
+		id,fname,lname,company_id,email
+		FROM
+		person
+		WHERE
+		 id=#{id}
+	</select>
+	
+	<select id='getAllPersons' resultMap="person_mapper">
+		SELECT
+		id,fname,lname,company_id,email
+		from person
+	</select>
+
+	<select id="getByPersonIds" parameterType="Long" resultMap="person_mapper">
+		SELECT id,fname,lname,company_id,email
+		FROM
+		person
+		WHERE id IN
+		<foreach item="item" index="index" collection="personIds"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:cxf="http://cxf.apache.org/core" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://cxf.apache.org/jaxrs 
+ 		http://cxf.apache.org/schemas/jaxrs.xsd">
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<!-- <import resource="classpath:META-INF/cxf/cxf-servlet.xml" /> -->
+
+	<context:component-scan base-package="com.rocket" />
+	<context:annotation-config />
+	<!-- <context:property-placeholder location='classpath:ns4Diagnostic.properties' 
+		order='1' ignore-unresolvable="true" /> -->
+	<bean id="meetingsResource" class="com.rocket.minutes.endpoint.MeetingsResource"></bean>
+	<bean id="companyResource" class="com.rocket.minutes.endpoint.CompanyResource"></bean>
+	<bean id="personResource" class="com.rocket.minutes.endpoint.PersonResource"></bean>
+	<bean id="projectResource" class="com.rocket.minutes.endpoint.ProjectResource"></bean>
+	<bean id="taskResource" class="com.rocket.minutes.endpoint.TaskResource"></bean>
+	<bean id="mailResource" class="com.rocket.minutes.endpoint.MailResource"></bean>
+
+	<jaxrs:server id="services" address="/">
+		<jaxrs:serviceBeans>
+			<ref bean="meetingsResource" />
+			<ref bean="companyResource" />
+			<ref bean="personResource" />
+			<ref bean="projectResource" />
+			<ref bean="taskResource" />
+			<ref bean="mailResource" />
+		</jaxrs:serviceBeans>
+		<jaxrs:providers>
+			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
+		</jaxrs:providers>
+	</jaxrs:server>
+
+
+</beans>

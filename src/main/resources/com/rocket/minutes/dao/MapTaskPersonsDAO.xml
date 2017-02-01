@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+  'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace='com.rocket.dao.MapTaskPersonsDAO'>
+
+	<resultMap id="mtp_mapper" type="com.rocket.minutes.model.TaskPerson">
+		<result property="task_id" column="task_id" />
+		<result property="person_id" column="person_id" />
+	</resultMap>
+	
+	<select id="getPersonsIdByTaskIds" parameterType="Long" resultMap="mtp_mapper">
+		SELECT task_id,person_id 
+		FROM
+		map_task_persons
+		WHERE task_id IN
+		<foreach item="item" index="index" collection="taskIds"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	
+</mapper>

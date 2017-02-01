@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+  'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace='com.rocket.dao.MeetingDAO'>
+
+	<resultMap id="meeting_mapper" type="com.rocket.minutes.model.Meeting">
+		<id property="id" column="id" />
+		<result property="title" column="title" />
+		<result property="schedule" column="schedule" />
+		<result property="location" column="location" />
+		<result property="minTaken" column="minutes" />
+		<result property="client_id" column="client_id" />
+		<result property="project_id" column="project_id" />
+	</resultMap>
+	
+	<select id="getById" parameterType="Long" resultMap="meeting_mapper">
+		SELECT
+		id,title,schedule,location,minutes,client_id,project_id
+		FROM
+		meeting
+		WHERE
+		 id=#{id}
+	</select>
+	
+	<select id='getAllMeetings' resultMap="meeting_mapper">
+		SELECT
+		id,title,schedule,location,minutes,client_id,project_id
+		from meeting
+	</select>
+
+	
+</mapper>

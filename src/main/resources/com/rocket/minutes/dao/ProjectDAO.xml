@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+  'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace='com.rocket.dao.ProjectDAO'>
+
+	<resultMap id="project_mapper" type="com.rocket.minutes.model.Project">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="description" column="description" />
+		<result property="company_id" column="company_id" />
+	</resultMap>
+
+	<select id="getById" parameterType="Long" resultMap="project_mapper">
+		SELECT
+		id,name,description,company_id
+		FROM
+		project
+		WHERE
+		id=#{id}
+	</select>
+
+	<select id='getAllProjects' resultMap="project_mapper">
+		SELECT
+		id,name,description,company_id
+		from project
+	</select>
+
+	<select id="getByCompanyId" parameterType="Long" resultMap="project_mapper">
+		SELECT
+		id,name,description,company_id
+		FROM
+		project
+		WHERE
+		company_id=#{companyId}
+	</select>
+
+</mapper>

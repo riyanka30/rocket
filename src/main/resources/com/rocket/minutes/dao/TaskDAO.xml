@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+  'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace='com.rocket.dao.TaskDAO'>
+
+	<resultMap id="task_mapper" type="com.rocket.minutes.model.Task">
+		<id property="id" column="id" />
+		<result property="title" column="title" />
+		<result property="description" column="description" />
+		<result property="target" column="target" />
+		<result property="status" column="status_id" />
+		<result property="minutes" column="minutes" />
+	</resultMap>
+	
+	<select id="getById" parameterType="Long" resultMap="task_mapper">
+		SELECT id,title,description,target,status_id,minutes
+		FROM task
+		WHERE id=#{id}
+	</select>
+	
+	<select id='getAllTasks' resultMap="task_mapper">
+		SELECT id,title,description,target,status_id,minutes
+		from task
+	</select>
+
+	
+</mapper>
