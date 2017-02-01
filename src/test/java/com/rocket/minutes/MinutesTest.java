@@ -14,7 +14,7 @@ import com.rocket.minutes.RequestBeans.MinutesRequestBean;
 import com.rocket.minutes.RequestBeans.TaskRequestBean;
 import com.rocket.minutes.model.Meeting;
 import com.rocket.minutes.services.CompanyService;
-import com.rocket.minutes.services.MailerService;
+import com.rocket.minutes.utils.MailerService;
 import com.rocket.minutes.services.MeetingService;
 import com.rocket.minutes.services.PersonService;
 import com.rocket.minutes.services.ProjectService;

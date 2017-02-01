@@ -30,6 +30,7 @@
 				<version>3.0.0</version>
 				<configuration>
 					<packagingExcludes>WEB-INF/classes/db.properties</packagingExcludes>
+					<packagingExcludes>WEB-INF/classes/account.properties</packagingExcludes>
 				</configuration>
 			</plugin>
 		</plugins>

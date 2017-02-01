@@ -1,4 +1,4 @@
-package com.rocket.minutes.services;
+package com.rocket.minutes.utils;
 
 import java.util.List;
 import java.util.Properties;
@@ -10,9 +10,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
 import org.springframework.stereotype.Service;
-
 import com.rocket.minutes.RequestBeans.MinutesRequestBean;
 import com.rocket.minutes.RequestBeans.TaskRequestBean;
 
@@ -20,8 +18,8 @@ import com.rocket.minutes.RequestBeans.TaskRequestBean;
 public class MailerService {
 	
 	public void sendMail(MinutesRequestBean mrb){
-		final String username = "whiterosed5@gmail.com";
-		final String password = "sumodoll";
+		final String username = PropertyReader.username;
+		final String password = PropertyReader.password;
 
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
@@ -39,9 +37,9 @@ public class MailerService {
 		try {
 
 			MimeMessage message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("whiterosed5@gmail.com"));
+			message.setFrom(new InternetAddress(PropertyReader.username));
 			message.addRecipients(Message.RecipientType.TO,
-					InternetAddress.parse("whiterosed5@gmail.com"));
+					InternetAddress.parse(PropertyReader.defaultTo));
 			String[] splitted = mrb.getAttendees().split(",");
 			for(int i=0;i<splitted.length;i++){
 				message.addRecipients(Message.RecipientType.TO,
