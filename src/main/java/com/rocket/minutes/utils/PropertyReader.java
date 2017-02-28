@@ -1,19 +1,25 @@
 package com.rocket.minutes.utils;
 
-import java.io.InputStream;
-import java.util.Properties;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PropertyReader {
 	
-	private static Properties props;
+	@Value("${username}")
+	public String username;
 	
-	public static String username;
-	public static String password;
-	public static String defaultTo;
+	@Value("${password}")
+	public String password;
+	
+	@Value("${defaultTo}")
+	public String defaultTo;
 
-	public static void setProperty(){
+	public PropertyReader() {
+	//	setProperty();
+	}
+	
+	/*private static void setProperty(){
 		//System.out.println("set property called");
 		props = new Properties();
 		try {
@@ -32,5 +38,5 @@ public class PropertyReader {
 			System.err.println("Exception while reading property file account.properties");
 			e.printStackTrace();
 		}
-	}
+	}*/
 }

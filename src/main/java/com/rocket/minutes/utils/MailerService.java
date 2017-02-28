@@ -10,6 +10,8 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.rocket.minutes.RequestBeans.MinutesRequestBean;
 import com.rocket.minutes.RequestBeans.TaskRequestBean;
@@ -17,10 +19,16 @@ import com.rocket.minutes.RequestBeans.TaskRequestBean;
 @Service
 public class MailerService {
 	
+	@Autowired
+	PropertyReader propertyReader;
+	
 	public void sendMail(MinutesRequestBean mrb){
-		final String username = PropertyReader.username;
-		final String password = PropertyReader.password;
-
+		final String username = propertyReader.username;
+		final String password = propertyReader.password;
+		
+		System.out.println("username is "+username);
+		System.out.println("password is "+password);
+		
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
@@ -37,9 +45,9 @@ public class MailerService {
 		try {
 
 			MimeMessage message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(PropertyReader.username));
+			message.setFrom(new InternetAddress(propertyReader.username));
 			message.addRecipients(Message.RecipientType.TO,
-					InternetAddress.parse(PropertyReader.defaultTo));
+					InternetAddress.parse(propertyReader.defaultTo));
 			String[] splitted = mrb.getAttendees().split(",");
 			for(int i=0;i<splitted.length;i++){
 				message.addRecipients(Message.RecipientType.TO,
@@ -61,8 +69,9 @@ public class MailerService {
 	
 	private String getMailBody(MinutesRequestBean mrb){
 		StringBuilder sb = new StringBuilder();
-		sb.append("<h2 style=\"color: #428bca\">Minutes of meeting : "+mrb.getTitle()+"</h2><hr>\n\n");
-		sb.append("<div><b>Client : </b>"+mrb.getClient()+"</div>");
+		sb.append(getCssForTable());
+		sb.append("<h3 style=\"color: #428bca\">Minutes of meeting : "+mrb.getTitle()+"</h3><hr>");
+		sb.append("<p><b>Client : </b>"+mrb.getClient()+"</p>");
 		sb.append("<p><b>Project : </b>"+mrb.getProject()+"</p>");
 		sb.append("<p><b>Time : </b>"+mrb.getTime()+"</p>");
 		sb.append("<p><b>Location : </b>"+mrb.getLocation()+"</p>");
@@ -84,12 +93,12 @@ public class MailerService {
 		for(int i=0;i<listtrb.size();i++){
 			TaskRequestBean trb = listtrb.get(i);
 			sb1.append("<tr>");
-			sb1.append("<td style=\"border:1px solid black\">"+trb.getTitle()+"</td>");
-			sb1.append("<td style=\"border:1px solid black\">"+trb.getDescription()+"</td>");
-			sb1.append("<td style=\"border:1px solid black\">"+trb.getOwners()+"</td>");
-			sb1.append("<td style=\"border:1px solid black\">"+trb.getTarget()+"</td>");
-			sb1.append("<td style=\"color:"+getStatusColor(trb.getStatus())+"\">"+trb.getStatus()+"</td>");
-			sb1.append("<td style=\"border:1px solid black\">"+trb.getMinutes()+"</td>");
+			sb1.append("<td>"+trb.getTitle()+"</td>");
+			sb1.append("<td>"+trb.getDescription()+"</td>");
+			sb1.append("<td>"+trb.getOwners()+"</td>");
+			sb1.append("<td>"+trb.getTarget()+"</td>");
+			sb1.append("<td style=\"border:1px solid black;color:white;background:"+getStatusColor(trb.getStatus())+"\">"+trb.getStatus()+"</td>");
+			sb1.append("<td>"+trb.getMinutes()+"</td>");
 			sb1.append("</tr>");
 		}
 		table+=sb1.toString()+"</tbody></table>";
@@ -107,5 +116,19 @@ public class MailerService {
 		else if(status.equalsIgnoreCase("in progress"))
 			color="#E39B1E";
 		return color;
+	}
+	
+	private String getCssForTable(){
+		StringBuilder sb = new StringBuilder();
+		sb.append("<style type=\"text/css\">");
+		sb.append("body h1, h2, h3, h4, h5, p {font-family: Verdana, Geneva, sans-serif;}");
+		sb.append("p {font-size: 14px;}");
+		sb.append("table {font-family: Verdana, Geneva, sans-serif;/*width:75%;*/font-size: 12px;}");
+		sb.append("table, th, td {border: 1px solid black;border-collapse: collapse;}");
+		sb.append("th, td {padding: 5px;text-align: left;}");
+		sb.append("tr:nth-child(odd) {background-color: #dddddd;}");
+		sb.append("th {background-color: #144178;color: white;}");
+		sb.append("</style>");
+		return sb.toString();
 	}
 }

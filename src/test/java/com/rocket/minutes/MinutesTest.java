@@ -77,7 +77,7 @@ public class MinutesTest
 		mrb.setTime("Wed 25th January, 2017");
 		mrb.setLocation("Intel office, Bangalore");
 		mrb.setChairP("Ranjeet Pundlik");
-		mrb.setAttendees("rdagaonk@akamai.com,sunny.pundlik@gmail.com");
+		mrb.setAttendees("rdagaonk@akamai.com,sunny.pundlik@gmail.com,ranjeet.pundlik@turntown.com");
 		
 		List<TaskRequestBean> trb = new ArrayList<TaskRequestBean>();
 		TaskRequestBean t1=new TaskRequestBean();
